@@ -1,0 +1,29 @@
+.admin-container{
+  display:flex;
+  height:500px;
+}
+
+.sidebar{
+  width:250px;
+  border-right:1px solid #ccc;
+  padding:10px;
+}
+
+.chat-item{
+  cursor:pointer;
+  padding:8px;
+  border-bottom:1px solid #eee;
+}
+
+.chat-area{
+  flex:1;
+  padding:10px;
+}
+
+.messages{
+  height:300px;
+  overflow-y:auto;
+  border:1px solid #ccc;
+  padding:10px;
+  margin-bottom:10px;
+}

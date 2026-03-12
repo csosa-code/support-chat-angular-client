@@ -1,0 +1,67 @@
+<div class="admin-container">
+
+    <div class="sidebar">
+  
+      <h3>Chats activos</h3>
+  
+      @for (chat of chats(); track chat.id) {
+  
+        <div
+          class="chat-item"
+          (click)="openChat(chat)"
+        >
+  
+          <strong>{{ chat.userName }}</strong>
+          <p>{{ chat.email }}</p>
+  
+        </div>
+  
+      }
+  
+    </div>
+  
+    <div class="chat-area">
+  
+      @if (selectedChat()) {
+  
+        <h3>Chat con {{ selectedChat()?.userName }}</h3>
+  
+        <div class="messages">
+  
+          @for (msg of messages(); track $index) {
+  
+            <div class="message">
+  
+              <strong>{{ msg.sender }}</strong>:
+              {{ msg.text }}
+  
+            </div>
+  
+          }
+  
+        </div>
+  
+        <div class="chat-input">
+  
+          <input
+            type="text"
+            placeholder="Responder..."
+            [value]="messageInput()"
+            (input)="messageInput.set($any($event.target).value)"
+          />
+  
+          <button (click)="sendMessage()">
+            Enviar
+          </button>
+  
+        </div>
+  
+      } @else {
+  
+        <p>Selecciona un chat</p>
+  
+      }
+  
+    </div>
+  
+  </div>

@@ -1,0 +1,33 @@
+<div class="identification-container">
+
+    <h2>Soporte Técnico</h2>
+  
+    <p>Ingresa tu información para iniciar el chat</p>
+  
+    <div>
+  
+      <label>Nombre</label>
+      <input
+        type="text"
+        (input)="userName.set($any($event.target).value)"
+        placeholder="Tu nombre"
+      />
+  
+    </div>
+  
+    <div>
+  
+      <label>Correo</label>
+      <input
+        type="email"
+        (input)="email.set($any($event.target).value)"
+        placeholder="Tu correo"
+      />
+  
+    </div>
+  
+    <button (click)="startChat()">
+      Iniciar Chat
+    </button>
+  
+  </div>
