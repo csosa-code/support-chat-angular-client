@@ -1,16 +1,18 @@
 import { Component, inject, signal } from '@angular/core';
 import { ChatSignalrService } from '../../core/services/chat-signalr.service';
+import { Router } from '@angular/router';
+import { DatePipe } from "@angular/common";
 
 @Component({
   selector: 'app-admin-panel',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.scss',
 })
 export default class AdminPanelComponent { 
 
   private chatService = inject(ChatSignalrService);
-
+  private router = inject(Router);
   chats = signal<any[]>([]);
   selectedChat = signal<any | null>(null);
 
@@ -26,6 +28,7 @@ export default class AdminPanelComponent {
      // chats activos
   this.chatService.onActiveChats((chats) => {
     this.chats.set(chats);
+    console.log('chats activos', chats);
   });
 
   this.chatService.getActiveChats();
@@ -79,5 +82,11 @@ export default class AdminPanelComponent {
 
     this.messageInput.set('');
 
+  }
+
+  closePanel() {
+    this.selectedChat.set(null);
+    this.messages.set([]);
+    this.router.navigate(['/']);
   }
 }

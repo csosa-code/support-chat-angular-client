@@ -1,35 +1,189 @@
-<div class="chat-container">
-
-    <h2>Chat de Soporte</h2>
-  
-    <div class="messages">
-  
-      @for (msg of messages(); track $index) {
-  
-        <div class="message">
-  
-          <strong>{{ msg.sender }}</strong>:
-          {{ msg.text }}
-  
-        </div>
-  
-      }
-  
-    </div>
-  
-    <div class="chat-input">
-  
-      <input
-        type="text"
-        placeholder="Escribe un mensaje..."
-        [value]="messageInput()"
-        (input)="messageInput.set($any($event.target).value)"
-      />
-  
-      <button (click)="sendMessage()">
-        Enviar
-      </button>
-  
-    </div>
-  
+<div class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 h-screen flex flex-col overflow-hidden">
+  <div class="layout-container flex flex-1 flex-col min-h-0">
+      <!-- Top Navigation Bar -->
+      <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 bg-white dark:bg-background-dark/50 px-6 py-3 sticky top-0 z-50 backdrop-blur-md">
+          <div class="flex items-center gap-3">
+              <div class="size-8 flex items-center justify-center rounded-lg bg-primary text-white">
+                  <span class="material-symbols-outlined text-2xl">support_agent</span>
+              </div>
+              <h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">
+                  Chat de Soporte</h2>
+          </div>
+          <div class="flex items-center gap-4">
+              <button
+                  (click)="closeChat()"
+                  class="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium">
+                  <span class="material-symbols-outlined text-base">logout</span>
+                  Desconectarse
+              </button>
+              <div
+                  class="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+                  <div class="w-full h-full bg-cover bg-center" data-alt="Avatar circular pequeño de perfil de usuario"
+                      style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDv4ocGe4c7QHaz4AZMRBvPRWTAjYe3jZ9-QvgNvdabELZo0u-_Py0D5OtRO4MVrItpfCWOzJx3l-bPWB2JM0awV7tEjGgyDke5XwK8C8mmwG_sxROpGGxmW7-6bWONpRWuNRn_RAzegml2nxI0inQW3ZgvsFQ0bQXDVT0A0158WEwL6rsimq1h9wh60Yq9HftMveqRvV1IsXRW8vUdxTosl2X1EcYrlyiKB4xYsp3ltaaFJf5ejZQ1A0Eyr09mxLJJORWdGdbPjoY')">
+                  </div>
+              </div>
+          </div>
+      </header>
+      <main class="mx-auto w-full p-6 lg:p-10 flex-1 flex flex-col min-h-0 overflow-hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 flex-1 min-h-0 overflow-hidden">
+              <!-- Left Column: User Info & Instructions -->
+              <div class="lg:col-span-3 flex flex-col gap-6">
+                  <!-- Card 1: User Info -->
+                  <div class="bg-white dark:bg-slate-900/50 p-6 rounded-xl shadow-sm border border-primary/5">
+                      <div class="flex items-center gap-4">
+                          <div
+                              class="size-16 rounded-full bg-primary/10 flex items-center justify-center text-primary border-2 border-primary/20 overflow-hidden">
+                              <div class="w-full h-full bg-cover bg-center"
+                                  data-alt="Avatar circular pequeño de perfil de usuario"
+                                  style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDv4ocGe4c7QHaz4AZMRBvPRWTAjYe3jZ9-QvgNvdabELZo0u-_Py0D5OtRO4MVrItpfCWOzJx3l-bPWB2JM0awV7tEjGgyDke5XwK8C8mmwG_sxROpGGxmW7-6bWONpRWuNRn_RAzegml2nxI0inQW3ZgvsFQ0bQXDVT0A0158WEwL6rsimq1h9wh60Yq9HftMveqRvV1IsXRW8vUdxTosl2X1EcYrlyiKB4xYsp3ltaaFJf5ejZQ1A0Eyr09mxLJJORWdGdbPjoY')">
+                              </div>
+                          </div>
+                          <div>
+                              <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">{{ chat.userName }}</h3>
+                              <p class="text-sm text-primary font-medium">{{ chat.email }}</p>
+                          </div>
+                      </div>
+                      <div class="mt-6 pt-6 border-t border-primary/10 flex justify-around">
+                          <div class="text-center">
+                              <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Estado</p>
+                              <span
+                                  class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">En línea</span>
+                          </div>
+                          <div class="text-center border-l border-primary/10 pl-6">
+                              <p class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Registro</p>
+                              <span class="text-sm font-semibold">{{ chat.createdAt | date: 'dd/MM/yyyy' }}</span>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Card 2: Instructions -->
+                  <div class="bg-white dark:bg-slate-900/50 p-6 rounded-xl shadow-sm border border-primary/5">
+                      <div class="flex items-center gap-2 mb-4 text-primary">
+                          <span class="material-symbols-outlined">info</span>
+                          <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Instrucciones</h3>
+                      </div>
+                      <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">
+                          Escribe tu consulta en el chat y envía tu mensaje. Un agente de soporte estará escuchando la conversación y responderá en tiempo real.
+                          Si deseas ver el panel del agente, puedes abrirlo desde el siguiente enlace.
+                      </p>
+                      <div class="space-y-3">
+                          <div class="flex items-start gap-3">
+                              <span class="material-symbols-outlined text-primary text-sm mt-1">chat</span>
+                              <p class="text-xs text-slate-500">Escribe tu mensaje y presiona Enter para enviarlo al agente</p>
+                          </div>
+                          <div class="flex items-start gap-3">
+                              <span class="material-symbols-outlined text-primary text-sm mt-1">hearing</span>
+                              <p class="text-xs text-slate-500">El agente estará escuchando el chat y responderá en tiempo real</p>
+                          </div>
+                          <div class="flex items-start gap-3">
+                              <span class="material-symbols-outlined text-primary text-sm mt-1">open_in_new</span>
+                              <p class="text-xs text-slate-500">
+                                Abrir panel del agente:
+                                <a href="/admin" target="_blank" class="text-primary font-medium hover:underline ml-1">
+                                  Ir al panel del agente
+                                </a>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- Right Column: Main Chat Card -->
+              <div
+                  class="lg:col-span-9 flex flex-col bg-white dark:bg-slate-900/50 rounded-xl shadow-lg border border-primary/5 overflow-hidden flex-1 min-h-0 h-full">
+                  <!-- Chat Header -->
+                  <div class="px-6 py-4 border-b border-primary/10 flex items-center justify-between bg-primary/10">
+                      <div class="flex items-center gap-3">
+                          <div
+                              class="size-10 rounded-full bg-primary flex items-center justify-center text-white ring-2 ring-primary/20 ring-offset-2 dark:ring-offset-slate-900">
+                              <span class="material-symbols-outlined">support_agent</span>
+                          </div>
+                          <div>
+                              <h4 class="font-bold text-slate-900 dark:text-slate-100">Agente de Soporte</h4>
+                              <p class="text-[10px] text-green-500 font-bold flex items-center gap-1">
+                                  <span class="block size-1.5 rounded-full bg-green-500"></span>
+                                  RESPONDE EN APROX. 5 MIN
+                              </p>
+                          </div>
+                      </div>
+                      <div class="flex gap-2">
+                          <button class="p-2 text-slate-400 hover:text-primary transition-colors">
+                              <span class="material-symbols-outlined">search</span>
+                          </button>
+                          <button class="p-2 text-slate-400 hover:text-primary transition-colors">
+                              <span class="material-symbols-outlined">more_vert</span>
+                          </button>
+                      </div>
+                  </div>
+                  <!-- Message Area -->
+                  <div class="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/30 dark:bg-transparent">
+                      @for (msg of messages(); track msg.id ?? $index) {
+                          @if (msg.sender === 'Agent') {
+                              <!-- Agent Message -->
+                              <div class="flex items-end gap-3 max-w-[80%]">
+                                  <div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0 mb-1">
+                                      <span class="material-symbols-outlined text-sm">smart_toy</span>
+                                  </div>
+                                  <div class="flex flex-col gap-1">
+                                      <span class="text-[10px] text-slate-400 ml-2">
+                                          Agente de Soporte @if (msg.sentAt) { • {{ msg.sentAt | date: 'hh:mm a' }} }
+                                      </span>
+                                      <div class="bg-primary/10 dark:bg-primary/20 text-slate-800 dark:text-slate-100 px-4 py-3 rounded-2xl rounded-bl-none shadow-sm text-sm border border-primary/5">
+                                          {{ msg.text }}
+                                      </div>
+                                  </div>
+                              </div>
+                          } @else {
+                              <!-- User Message -->
+                              <div class="flex flex-row-reverse items-end gap-3 max-w-[80%] ml-auto">
+                                  <div class="size-8 rounded-full bg-primary flex items-center justify-center text-white shrink-0 mb-1">
+                                      <span class="material-symbols-outlined text-sm">person</span>
+                                  </div>
+                                  <div class="flex flex-col gap-1 items-end">
+                                      <span class="text-[10px] text-slate-400 mr-2">
+                                          {{ msg.sender }} @if (msg.sentAt) { • {{ msg.sentAt | date: 'hh:mm a' }} }
+                                      </span>
+                                      <div class="bg-primary text-white px-4 py-3 rounded-2xl rounded-br-none shadow-md text-sm">
+                                          {{ msg.text }}
+                                      </div>
+                                  </div>
+                              </div>
+                          }
+                      } @empty {
+                          <div class="flex flex-col items-center justify-center h-full text-slate-400 gap-2">
+                              <span class="material-symbols-outlined text-4xl">chat_bubble_outline</span>
+                              <p class="text-sm">Aún no hay mensajes. ¡Inicia la conversación!</p>
+                          </div>
+                      }
+                  </div>
+                  <!-- Chat Footer: Input Area -->
+                  <div class="p-4 bg-white dark:bg-slate-900/80 border-t border-primary/10">
+                      <div
+                          class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 p-2 rounded-full border border-primary/10 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+                          <button
+                              class="p-2 text-slate-500 hover:text-primary transition-colors flex items-center justify-center">
+                              <span class="material-symbols-outlined">add_circle</span>
+                          </button>
+                          <input
+                              [value]="messageInput()"
+                            (input)="messageInput.set($any($event.target).value)"
+                              class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2 px-1 text-slate-800 dark:text-slate-200"
+                              placeholder="Escribe tu mensaje..." type="text" />
+                          <button
+                              class="p-2 text-slate-400 hover:text-primary transition-colors flex items-center justify-center">
+                              <span class="material-symbols-outlined">mood</span>
+                          </button>
+                          <button
+                            (click)="sendMessage()"
+                              class="bg-primary text-white size-10 rounded-full flex items-center justify-center hover:bg-primary/90 transition-all shadow-lg shadow-primary/30">
+                              <span class="material-symbols-outlined">send</span>
+                          </button>
+                      </div>
+                      <div class="mt-2 flex justify-center">
+                          <p class="text-[10px] text-slate-400 italic">Presiona Enter para enviar mensaje</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </main>
   </div>
+</div>

@@ -1,17 +1,22 @@
 import { Component, inject, signal } from '@angular/core';
 import { ChatSignalrService } from '../../core/services/chat-signalr.service';
+import { DatePipe } from "@angular/common";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-chat',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './user-chat.component.html',
   styleUrl: './user-chat.component.scss',
 })
 export default class UserChatComponent {
   private chatService = inject(ChatSignalrService);
+  private router = inject(Router);
 
   chatId = localStorage.getItem('chatId') || '';
   userName = localStorage.getItem('userName') || '';
+  email = localStorage.getItem('email') || '';
+  chat = JSON.parse(localStorage.getItem('chat') || '{}');
 
   messages = signal<any[]>([]);
   messageInput = signal('');
@@ -21,42 +26,30 @@ export default class UserChatComponent {
     await this.chatService.startConnection();
     await this.chatService.joinChat(this.chatId);
 
-    // escuchar mensajes nuevos
+   
     this.chatService.onReceiveMessage((sender, message) => {
-
-      console.log('mensaje recibido', sender, message);
-
       try {
-    
         const updated = [
           ...this.messages(),
           { sender, text: message }
         ];
-    
         this.messages.set(updated);
-    
-        console.log('mensajes ahora', this.messages());
-    
+
       } catch (error) {
-    
         console.error('error actualizando messages', error);
-    
+
       }
     });
 
-    // cargar historial
+
     this.chatService.onChatHistory((history) => {
-
-      console.log('historial recibido', history);
-  
       this.messages.set(history);
-  
     });
-  
-    // solicitar historial
-    this.chatService.loadChatHistory(this.chatId);
 
+
+    this.chatService.loadChatHistory(this.chatId);
   }
+  
 
   sendMessage() {
 
@@ -71,4 +64,12 @@ export default class UserChatComponent {
     this.messageInput.set('');
 
   }
- }
+
+  closeChat() {
+    localStorage.removeItem('chatId');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('email');
+    localStorage.removeItem('chat');
+    this.router.navigate(['/']);
+  }
+}

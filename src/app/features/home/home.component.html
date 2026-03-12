@@ -1,19 +1,89 @@
-<div class="home-container">
-
-    <h1>Chat Support</h1>
-  
-    <p>Selecciona cómo deseas ingresar</p>
-  
-    <div class="buttons">
-  
-      <button (click)="goToUser()">
-        Ingresar como Usuario
-      </button>
-  
-      <button (click)="goToAdmin()">
-        Ingresar como Agente
-      </button>
-  
-    </div>
-  
+<div class="bg-background-light dark:bg-background-dark font-display min-h-screen">
+  <div
+      class="relative flex min-h-screen w-full flex-col bg-gradient-to-br from-[#f3effd] to-[#e8e0f9] dark:from-[#1a1429] dark:to-[#161121] overflow-x-hidden">
+      <header
+          class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-6 py-4 lg:px-20 bg-white/50 dark:bg-background-dark/50 backdrop-blur-md">
+          <div class="flex items-center gap-3 text-slate-900 dark:text-slate-100">
+              <div class="flex items-center justify-center size-10 rounded-lg bg-primary text-white">
+                  <span class="material-symbols-outlined">support_agent</span>
+              </div>
+              <h2 class="text-xl font-bold leading-tight tracking-tight">Chat de Soporte</h2>
+          </div>
+          <div class="flex flex-1 justify-end gap-4 items-center">
+              <div class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                  Centro de Ayuda
+              </div>
+          </div>
+      </header>
+      <main class="flex-1 flex items-center justify-center p-6">
+          <div
+              class="w-full max-w-4xl bg-white/70 dark:bg-slate-900/50 backdrop-blur-xl rounded-[2rem] shadow-2xl shadow-primary/10 p-8 lg:p-16 flex flex-col items-center">
+              <div class="text-center mb-12">
+                  <h1
+                      class="text-slate-900 dark:text-slate-100 text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight mb-4">
+                      Bienvenido al Portal de Soporte
+                  </h1>
+                  <p class="text-slate-600 dark:text-slate-400 text-lg max-w-lg mx-auto">
+                      Por favor selecciona tu rol para continuar. Nuestro sistema inteligente te guiará en los
+                      siguientes pasos.
+                  </p>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+                  <div
+                      class="group cursor-pointer bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300">
+                      <div class="flex flex-col items-center text-center">
+                          <div
+                              class="size-20 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                              <span class="material-symbols-outlined !text-5xl">manage_accounts</span>
+                          </div>
+                          <h3 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Modo Agente</h3>
+                          <p class="text-slate-500 dark:text-slate-400 mb-8">Accede al panel para gestionar tickets
+                              y ayudar a los usuarios.</p>
+                          <button
+                              (click)="goToAdmin()"
+                              class="w-full py-4 bg-primary text-white rounded-xl font-bold text-lg hover:bg-primary/90 shadow-lg shadow-primary/30">
+                              Entrar como Agente
+                          </button>
+                      </div>
+                  </div>
+                  <div
+                      class="group cursor-pointer bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300">
+                      <div class="flex flex-col items-center text-center">
+                          <div
+                              class="size-20 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                              <span class="material-symbols-outlined !text-5xl">person</span>
+                          </div>
+                          <h3 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Modo Usuario</h3>
+                          <p class="text-slate-500 dark:text-slate-400 mb-8">Obtén ayuda técnica y habla con nuestros
+                              especialistas de soporte.</p>
+                          <button
+                              (click)="goToUser()"
+                              class="w-full py-4 bg-primary text-white rounded-xl font-bold text-lg hover:bg-primary/90 shadow-lg shadow-primary/30">
+                              Entrar como Usuario
+                          </button>
+                      </div>
+                  </div>
+              </div>
+              <div class="mt-12 flex items-center gap-6 text-slate-400">
+                  <div class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-sm">lock</span>
+                      <span class="text-xs font-medium uppercase tracking-wider">Acceso Seguro</span>
+                  </div>
+                  <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                  <div class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-sm">verified</span>
+                      <span class="text-xs font-medium uppercase tracking-wider">Chat en tiempo real</span>
+                  </div>
+              </div>
+          </div>
+      </main>
+      <footer class="px-6 py-8 flex flex-col items-center text-slate-500 dark:text-slate-400">
+          <div class="flex gap-8 mb-4">
+              <a class="text-sm hover:text-primary transition-colors" href="#">Documentación</a>
+              <a class="text-sm hover:text-primary transition-colors" href="#">Política de Privacidad</a>
+              <a class="text-sm hover:text-primary transition-colors" href="#">Contactar Soporte</a>
+          </div>
+          <p class="text-xs">© 2026 Chat de Soporte. Todos los derechos reservados.</p>
+      </footer>
   </div>
+</div>

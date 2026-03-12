@@ -25,9 +25,15 @@ export default class UserIdentificationComponent {
 
         localStorage.setItem('chatId', chat.id);
         localStorage.setItem('userName', this.userName());
+        localStorage.setItem('email', this.email());
+        localStorage.setItem('chat', JSON.stringify(chat));
 
         this.router.navigate(['/chat']);
       });
 
+  }
+
+  closeChat() {
+    this.router.navigate(['/']);
   }
 }
