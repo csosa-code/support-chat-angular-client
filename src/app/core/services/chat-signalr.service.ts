@@ -7,6 +7,7 @@ import * as signalR from '@microsoft/signalr';
 export class ChatSignalrService {
 
   private hubConnection!: signalR.HubConnection;
+  private readonly apiUrl = '/api-chat/hubs/chat';
 
   startConnection(): Promise<void> {
 
@@ -17,7 +18,7 @@ export class ChatSignalrService {
     }
   
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5228/hubs/chat')
+      .withUrl(this.apiUrl)
       .withAutomaticReconnect()
       .build();
   
