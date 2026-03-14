@@ -12,12 +12,10 @@ export default class HomeComponent {
   private router = inject(Router);
 
   goToUser() {
-    // this.router.navigate(['/user']);
-    window.open('/user', '_blank');
+    window.open(`${document.baseURI}user`, '_blank');
   }
-
+  
   goToAdmin() {
-    // this.router.navigate(['/admin']);
-    window.open('/admin', '_blank');
+    window.open(`${document.baseURI}admin`, '_blank');
   }
  }
