@@ -1,59 +1,158 @@
-# ChatSupportClient
+# Support Chat Client (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+Frontend de un sistema de chat en tiempo real para soporte técnico, desarrollado con **Angular**, **SignalR** y **TailwindCSS**.
 
-## Development server
+Este cliente permite a usuarios y agentes interactuar en tiempo real mediante WebSockets, consumiendo la API construida en .NET.
 
-To start a local development server, run:
+---
 
-```bash
+## 🧠 Descripción del proyecto
+
+Aplicación web que permite:
+
+- Usuarios iniciar un chat de soporte
+- Agentes gestionar múltiples conversaciones en tiempo real
+- Comunicación bidireccional instantánea con SignalR
+- Visualización de historial de mensajes
+
+---
+
+## 🏗️ Arquitectura
+
+El proyecto sigue una estructura modular basada en features:
+
+- `core/`
+  → Servicios globales (SignalR)
+
+- `features/`
+  → Funcionalidades principales
+    - home
+    - user-identification
+    - user-chat
+    - admin-panel
+
+- `shared/`
+  → Modelos e interfaces (Chat, Message)
+
+---
+
+## ⚙️ Stack Tecnológico
+
+- Angular 21
+- SignalR Client (@microsoft/signalr)
+- TailwindCSS
+- TypeScript
+- RxJS
+- Docker + Nginx
+
+---
+
+## 🔄 Flujo de comunicación
+
+Usuario / Agente
+│
+▼
+Angular App
+│
+▼
+SignalR Service
+│
+▼
+.NET API (ChatHub)
+
+- El frontend se conecta al **SignalR Hub**
+- Se envían y reciben mensajes en tiempo real
+- Cada chat se maneja mediante grupos (rooms)
+
+---
+
+## 🧩 Componentes principales
+
+### 🟣 ChatSignalrService
+
+Encapsula toda la comunicación con SignalR:
+
+- Conexión al Hub
+- Invocación de métodos del backend
+- Suscripción a eventos en tiempo real
+
+Métodos principales:
+- `createChat()`
+- `joinChat()`
+- `sendMessage()`
+- `loadChatHistory()`
+- `getActiveChats()`
+
+Eventos:
+- `ReceiveMessage`
+- `ChatHistory`
+- `NewChatCreated`
+- `ActiveChats`
+
+---
+
+### 🟢 User Flow
+
+#### 1. Identificación
+- Usuario ingresa nombre y email
+- Se crea o reutiliza un chat
+
+#### 2. Chat en tiempo real
+- Envío de mensajes
+- Recepción instantánea de respuestas
+- Carga de historial
+
+---
+
+### 🟡 Admin Panel
+
+- Visualización de chats activos
+- Selección de conversación
+- Respuesta en tiempo real
+- Manejo de múltiples chats
+
+---
+
+## 📦 Funcionalidades implementadas
+
+### 💬 Chat en tiempo real
+- WebSockets con SignalR
+- Comunicación bidireccional
+- Actualización instantánea
+
+---
+
+### 👤 Gestión de usuario
+- Identificación básica (nombre + email)
+- Persistencia en localStorage
+- Reutilización de sesiones
+
+---
+
+### 🧠 Historial de mensajes
+- Carga automática al abrir chat
+- Orden cronológico
+- Sincronización con backend
+
+---
+
+### 🧑‍💻 Panel de agentes
+- Lista de chats activos
+- Notificación de nuevos chats
+- Manejo simultáneo de conversaciones
+
+---
+
+### 🎨 UI moderna
+- TailwindCSS
+- Diseño responsive
+- Dark mode
+- UX tipo chat profesional
+
+---
+
+## ▶️ Ejecución local
+
+```bash id="run-angular"
+npm install
 ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
